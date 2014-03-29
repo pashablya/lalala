@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    >
+
+
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/position"
+        android:padding="10dp"
+        android:onClick="prevPage"
+        android:text="previous page"
+
+        />
+
+    <EditText
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/pageNumber"
+        android:padding="10dp"
+        android:text="1"
+
+        />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:padding="10dp"
+        android:text="go"
+        android:id="@+id/button_go"
+        android:onClick="goToPage"
+        />
+
+
+
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/experience"
+        android:padding="10dp"
+        android:onClick="nextPage"
+        android:text="next page"
+
+        />
+</LinearLayout>
