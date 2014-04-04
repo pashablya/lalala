@@ -13,34 +13,12 @@ import java.io.IOException;
  * Created by ф on 14.3.14.
  */
 public class FileOpener {
-    public static String readFileSD(String path) {
+    public static File readFileSD(String path) {
         if (!Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
-            return "ERROR";
+            return null;
         }
-
         File sdFile = new File(path);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(sdFile));
-            String str = "";
-            StringBuffer buffer = new StringBuffer();
-            while ((str = br.readLine()) != null) {
-                buffer.append(str + "\n");
-            }
-            return buffer.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "ERROR";
+        return sdFile;
     }
-
-
-
-
-
-
-
-
 }

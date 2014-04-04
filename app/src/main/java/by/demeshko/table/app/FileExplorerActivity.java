@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -25,6 +27,23 @@ public class FileExplorerActivity extends ListActivity {
         currentDir = new File("/sdcard");
         fill(currentDir);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.file_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.save) {
+            new SaveDialog(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void fill(File f)
     {
         File[] dirs = f.listFiles();
@@ -53,6 +72,12 @@ public class FileExplorerActivity extends ListActivity {
                 }
                 else
                 {
+                    String extension = "";
+                    int i = ff.getAbsolutePath().lastIndexOf('.');
+                    if (i > 0) {
+                        extension = ff.getAbsolutePath().substring(i + 1);
+                    }
+                    if(extension.equals("xml"))
                     fls.add(new Item(ff.getName(),ff.length() + " Byte", date_modify, ff.getAbsolutePath(),"file_icon"));
                 }
             }
@@ -63,8 +88,9 @@ public class FileExplorerActivity extends ListActivity {
         Collections.sort(dir);
         Collections.sort(fls);
         dir.addAll(fls);
-        if(!f.getName().equalsIgnoreCase("sdcard"))
+        if(!f.getName().equalsIgnoreCase("sdcard")){
             dir.add(0,new Item("..","Parent Directory","",f.getParent(),"directory_up"));
+        }
         adapter = new FileArrayAdapter(FileExplorerActivity.this,R.layout.file_exployer,dir);
         this.setListAdapter(adapter);
     }
@@ -84,7 +110,7 @@ public class FileExplorerActivity extends ListActivity {
     }
     private void onFileClick(Item o)
     {
-        //Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
+        
         Intent intent = new Intent();
         intent.putExtra("GetPath",currentDir.toString());
         intent.putExtra("GetFileName",o.getName());

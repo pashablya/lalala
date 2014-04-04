@@ -10,22 +10,18 @@ public class StudentArray {
 
 
     private int studentOnPage=10;
-
-
-
     private int currentPageNumber=1;
-
-
     List<Student> students = new ArrayList<Student>();
 
     public StudentArray(){
         //fillData();
     }
-    void fillData(){
-        for(int i=1;i<47;i++){
-            students.add(new Student("name"+i,"parent"+i,"job"+i,"position"+i,"experience"+i));
-        }
+
+    public void fillData(List<Student> students){
+       this.students=students;
     }
+
+
 
     public List<Student> getPage(int pageNumber){
         List<Student>  page = new ArrayList<Student>(studentOnPage);

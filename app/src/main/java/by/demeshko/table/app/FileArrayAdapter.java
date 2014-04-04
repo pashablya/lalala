@@ -36,10 +36,6 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
             LayoutInflater vi = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(id, null);
         }
-
-               /* create a new view of my layout and inflate it in the row */
-        //convertView = ( RelativeLayout ) inflater.inflate( resource, null );
-
         final Item o = items.get(position);
         if (o != null) {
             TextView t1 = (TextView) v.findViewById(R.id.TextView01);
