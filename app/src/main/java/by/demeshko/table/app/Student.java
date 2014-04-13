@@ -8,7 +8,6 @@ import java.util.Arrays;
  */
 public class Student {
 
-
     private String name="";
     private String parentName="";
     private String job="";
@@ -42,8 +41,5 @@ public class Student {
     public String getParentName() {
         return parentName;
     }
-
-
-
 
 }

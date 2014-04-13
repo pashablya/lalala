@@ -41,7 +41,6 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
             TextView t1 = (TextView) v.findViewById(R.id.TextView01);
             TextView t2 = (TextView) v.findViewById(R.id.TextView02);
             TextView t3 = (TextView) v.findViewById(R.id.TextViewDate);
-                       /* Take the ImageView from layout and set the city's image */
             ImageView imageCity = (ImageView) v.findViewById(R.id.fd_Icon1);
             if(o.getImage().equals("directory_icon")){
                  Drawable image = c.getResources().getDrawable(R.drawable.directory_icon);

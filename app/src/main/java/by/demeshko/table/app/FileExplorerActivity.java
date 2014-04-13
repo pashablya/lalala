@@ -21,27 +21,16 @@ public class FileExplorerActivity extends ListActivity {
 
     private File currentDir;
     private FileArrayAdapter adapter;
+    private boolean save=false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentDir = new File("/sdcard");
         fill(currentDir);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.file_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.save) {
-            new SaveDialog(this);
-            return true;
+        if(getIntent().getExtras().get("Type").equals("Save")){
+            save=true;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void fill(File f)
@@ -62,12 +51,16 @@ public class FileExplorerActivity extends ListActivity {
                     if(fbuf != null){
                         buf = fbuf.length;
                     }
-                    else buf = 0;
+                    else{
+                        buf = 0;
+                    }
                     String num_item = String.valueOf(buf);
-                    if(buf == 0) num_item = num_item + " item";
-                    else num_item = num_item + " items";
-
-                    //String formated = lastModDate.toString();
+                    if(buf == 0) {
+                        num_item = num_item + " item";
+                    }
+                    else{
+                        num_item = num_item + " items";
+                    }
                     dir.add(new Item(ff.getName(),num_item,date_modify,ff.getAbsolutePath(),"directory_icon"));
                 }
                 else
@@ -91,6 +84,9 @@ public class FileExplorerActivity extends ListActivity {
         if(!f.getName().equalsIgnoreCase("sdcard")){
             dir.add(0,new Item("..","Parent Directory","",f.getParent(),"directory_up"));
         }
+        if(!f.getName().equalsIgnoreCase("sdcard") && save){
+            dir.add(0,new Item("","SAVE HERE","",f.getAbsolutePath(),"directory_up"));
+        }
         adapter = new FileArrayAdapter(FileExplorerActivity.this,R.layout.file_exployer,dir);
         this.setListAdapter(adapter);
     }
@@ -100,21 +96,39 @@ public class FileExplorerActivity extends ListActivity {
         super.onListItemClick(l, v, position, id);
         Item o = adapter.getItem(position);
         if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
+            if(o.getData().equals("SAVE HERE")){
+                new SaveDialog(this);
+            }
             currentDir = new File(o.getPath());
             fill(currentDir);
         }
         else
         {
+            if(save){
+              saveResult(o.getName());
+           }
             onFileClick(o);
         }
     }
     private void onFileClick(Item o)
     {
-        
         Intent intent = new Intent();
         intent.putExtra("GetPath",currentDir.toString());
         intent.putExtra("GetFileName",o.getName());
+        intent.putExtra("Type","Open");
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    public void saveResult(String fileName)
+    {
+        Intent intent = new Intent();
+        intent.putExtra("GetPath",currentDir.toString());
+        intent.putExtra("GetFileName",fileName);
+        intent.putExtra("Type","Save");
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+
 }

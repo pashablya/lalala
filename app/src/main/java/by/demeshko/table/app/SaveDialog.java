@@ -15,20 +15,21 @@ public class SaveDialog {
     private EditText edit;
 
 
-    public SaveDialog(Activity fileActivity){
+    public SaveDialog(FileExplorerActivity fileActivity){
         edit= new EditText(fileActivity);
         AlertDialog dialog=getAlert(fileActivity);
         dialog.setView(edit);
         dialog.show();
     }
 
-    private AlertDialog getAlert(final Activity fileActivity){
+    private AlertDialog getAlert(final FileExplorerActivity fileActivity){
         AlertDialog.Builder builder = new AlertDialog.Builder(fileActivity,3);
         builder.setTitle("Enter file name")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         StringBuilder builder=new StringBuilder(edit.getText().toString());
                         if(builder.indexOf(".xml")!=-1) {
+                            fileActivity.saveResult(builder.toString());
                             dialog.cancel();
                         }
                         else {

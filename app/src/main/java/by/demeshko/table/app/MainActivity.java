@@ -46,10 +46,6 @@ public class MainActivity extends Activity {
         initHeader();
     }
 
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -64,27 +60,48 @@ public class MainActivity extends Activity {
             return true;
         }
         if (id == R.id.open) {
-            getfile();
+            getFilePath("Open");
+            return true;
+        }
+        if (id == R.id.save) {
+            getFilePath("Save");
+            return true;
+        }
+
+        if (id == R.id.del) {
+            new DeleteDialog(this,getWidth());
+            goToPage(new View(this));
+            studentAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        if (id == R.id.search) {
+            new SearchDialog(this,getWidth());
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void getfile(){
+    public void getFilePath(String type){
         Intent intent = new Intent(this, FileExplorerActivity.class);
+        intent.putExtra("Type",type);
         startActivityForResult(intent,REQUEST_PATH);
     }
+
+
     // Listen for results.
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        // See which child activity is calling us back.
-        if (requestCode == REQUEST_PATH){
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getBaseContext(), "Yo choose: " + data.getStringExtra("GetPath") + "/" + data.getStringExtra("GetFileName"), Toast.LENGTH_LONG).show();
-                File file= FileOpener.readFileSD(data.getStringExtra("GetPath")+"/"+data.getStringExtra("GetFileName"));
-                studentArray.fillData(new XmlDomParser(file).getStudents());
-                goToPage(new View(this));
-            }
+        if (requestCode == REQUEST_PATH && resultCode == RESULT_OK){
+
+                if(data.getExtras().get("Type").equals("Open")) {
+                    File file = FileOpener.readFileSD(data.getStringExtra("GetPath") + "/" + data.getStringExtra("GetFileName"));
+                    studentArray.fillData(new XmlDomParser(file).getStudents());
+                    goToPage(new View(this));
+                } else {
+                    SaveXml.writeFileSD(studentAdapter.students,data.getStringExtra("GetPath"),data.getStringExtra("GetFileName"));
+                }
+
+
         }
     }
 
@@ -124,6 +141,10 @@ public class MainActivity extends Activity {
         findViewById(R.id.job).setLayoutParams(new LinearLayout.LayoutParams((int)(width*0.17),90));
         findViewById(R.id.position).setLayoutParams(new LinearLayout.LayoutParams((int)(width*0.18),90));
         findViewById(R.id.experience).setLayoutParams(new LinearLayout.LayoutParams((int)(width*0.11),90));
+    }
+
+    public void searchClick(View v){
+
     }
 
 }

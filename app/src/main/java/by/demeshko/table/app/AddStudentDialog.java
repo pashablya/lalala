@@ -35,7 +35,7 @@ public class AddStudentDialog {
                         String job=((EditText)fragmentLayout.findViewById(R.id.job)).getText().toString();
                         String position=((EditText)fragmentLayout.findViewById(R.id.position)).getText().toString();
                         String experience=((EditText)fragmentLayout.findViewById(R.id.experience)).getText().toString();
-                        mainActivity.studentArray.addStudent(new Student(name,parentName,job,position,experience));
+                        mainActivity.studentArray.addStudent(name,parentName,job,position,experience);
                         mainActivity.goToPage(new View(mainActivity));
                         dialog.cancel();
                     }

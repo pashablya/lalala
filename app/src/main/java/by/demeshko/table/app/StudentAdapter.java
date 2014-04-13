@@ -82,8 +82,4 @@ public class StudentAdapter extends BaseAdapter {
         return view;
     }
 
-
-
-
-
 }
